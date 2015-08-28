@@ -1,9 +1,25 @@
+require 'colorize'
+
 class Board
-	COLORS = ["A", "B", "C", "D", "E", "F"]
+	#COLORS = ["A", "B", "C", "D", "E", "F"]
+	COLORS = ["B", "R", "G", "Y", "M", "W"]
+	LEGEND = [
+			"[B]lue".colorize(:blue),
+			"[R]ed".colorize(:red),
+			"[G]reen".colorize(:green),
+			"[Y]ellow".colorize(:yellow),
+			"[M]agenta".colorize(:magenta),
+			"[W]hite".colorize(:white)
+		]
 	MAX_GUESSES = 12
 	
 	def initialize
 		generateSecretCode
+	end
+
+	def printLegend
+		LEGEND.each { |command| print command + "  " }
+		puts
 	end
 
 	def generateSecretCode
@@ -43,13 +59,21 @@ class Board
 		results
 	end
 
+	def drawPegs(results)
+		print "Pegs: "
+		results[:white].times { print "  ".colorize(:background => :white); print "  "}
+		results[:black].times { print "  ".colorize(:background => :black); print "  " }	
+		puts
+	end
+
 	def promptUser
 		MAX_GUESSES.times do
-			puts "Enter your guess, separated by spaces (e.g. A A B E)"
+			puts "Enter your guess, separated by spaces (e.g. #{"B".colorize(:blue)} #{"R".colorize(:red)} #{"G".colorize(:green)} #{"Y".colorize(:yellow)})"
 			a, b, c, d = gets.chomp.split
 			guess = [a,b,c,d]
 			results = compareGuessToSecretCode(guess)
-			puts results.inspect
+			#puts results.inspect
+			drawPegs(results)
 			if (results[:black] == 4 )
 				puts "Congratulations, you win!"
 				break
@@ -59,4 +83,5 @@ class Board
 end
 
 b = Board.new
+b.printLegend
 b.promptUser
