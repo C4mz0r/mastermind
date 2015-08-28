@@ -1,7 +1,6 @@
 require 'colorize'
 
 class Board
-	#COLORS = ["A", "B", "C", "D", "E", "F"]
 	COLORS = ["B", "R", "G", "Y", "M", "W"]
 	LEGEND = [
 			"[B]lue".colorize(:blue),
